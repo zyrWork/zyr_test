@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.part.OrderPartMapper">
+  <resultMap id="orderpart" type="pojo.part.OrderPart">
+  <result column="order_id" jdbcType="VARCHAR" property="order_id" />
+    <result column="shop_account_id" jdbcType="INTEGER" property="shop_account_id" />
+    <result column="order_status" jdbcType="SMALLINT" property="order_status" />
+    <result column="create_time" jdbcType="VARCHAR" property="create_time" />
+    <result column="pay_total_price" jdbcType="DECIMAL" property="pay_total_price" />
+  </resultMap>
+  
+      <select id="selectOrderListByAccountId"   resultMap="orderpart">
+         select order_id ,shop_account_id , order_status, create_time,pay_total_price
+         from orders
+    	where member_account_id = #{member_account_id,jdbcType=INTEGER} limit #{start_no,jdbcType=INTEGER} , #{end_no,jdbcType=INTEGER}
+    	</select>
+    	</mapper>

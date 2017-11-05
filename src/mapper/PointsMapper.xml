@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.PointsMapper">
+  <resultMap id="BaseResultMap" type="pojo.Points">
+    <id column="points_serial" jdbcType="INTEGER" property="pointsSerial" />
+    <result column="shop_account_id" jdbcType="INTEGER" property="shopAccountId" />
+    <result column="member_account_id" jdbcType="INTEGER" property="memberAccountId" />
+    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="last_modified" jdbcType="VARCHAR" property="lastModified" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    points_serial, shop_account_id, member_account_id, score, create_time, last_modified
+  </sql>
+  <select id="selectByExample" parameterType="pojo.PointsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from points
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from points
+    where points_serial = #{pointsSerial,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from points
+    where points_serial = #{pointsSerial,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.PointsExample">
+    delete from points
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.Points">
+    insert into points (points_serial, shop_account_id, member_account_id, 
+      score, create_time, last_modified
+      )
+    values (#{pointsSerial,jdbcType=INTEGER}, #{shopAccountId,jdbcType=INTEGER}, #{memberAccountId,jdbcType=INTEGER}, 
+      #{score,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, #{lastModified,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.Points">
+    insert into points
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pointsSerial != null">
+        points_serial,
+      </if>
+      <if test="shopAccountId != null">
+        shop_account_id,
+      </if>
+      <if test="memberAccountId != null">
+        member_account_id,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastModified != null">
+        last_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pointsSerial != null">
+        #{pointsSerial,jdbcType=INTEGER},
+      </if>
+      <if test="shopAccountId != null">
+        #{shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="memberAccountId != null">
+        #{memberAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        #{lastModified,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.PointsExample" resultType="java.lang.Long">
+    select count(*) from points
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update points
+    <set>
+      <if test="record.pointsSerial != null">
+        points_serial = #{record.pointsSerial,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopAccountId != null">
+        shop_account_id = #{record.shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberAccountId != null">
+        member_account_id = #{record.memberAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.score != null">
+        score = #{record.score,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastModified != null">
+        last_modified = #{record.lastModified,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update points
+    set points_serial = #{record.pointsSerial,jdbcType=INTEGER},
+      shop_account_id = #{record.shopAccountId,jdbcType=INTEGER},
+      member_account_id = #{record.memberAccountId,jdbcType=INTEGER},
+      score = #{record.score,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      last_modified = #{record.lastModified,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.Points">
+    update points
+    <set>
+      <if test="shopAccountId != null">
+        shop_account_id = #{shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="memberAccountId != null">
+        member_account_id = #{memberAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        last_modified = #{lastModified,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where points_serial = #{pointsSerial,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.Points">
+    update points
+    set shop_account_id = #{shopAccountId,jdbcType=INTEGER},
+      member_account_id = #{memberAccountId,jdbcType=INTEGER},
+      score = #{score,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      last_modified = #{lastModified,jdbcType=VARCHAR}
+    where points_serial = #{pointsSerial,jdbcType=INTEGER}
+  </update>
+</mapper>

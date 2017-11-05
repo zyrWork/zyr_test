@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.MallMapper">
+  <resultMap id="BaseResultMap" type="pojo.Mall">
+    <id column="mall_serial" jdbcType="INTEGER" property="mallSerial" />
+    <result column="admin_account_id" jdbcType="INTEGER" property="adminAccountId" />
+    <result column="mall_name" jdbcType="VARCHAR" property="mallName" />
+    <result column="service_tel" jdbcType="VARCHAR" property="serviceTel" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    <result column="delete_time" jdbcType="VARCHAR" property="deleteTime" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="last_modified" jdbcType="VARCHAR" property="lastModified" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="pojo.Mall">
+    <result column="parking_fee_standard" jdbcType="LONGVARCHAR" property="parkingFeeStandard" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    mall_serial, admin_account_id, mall_name, service_tel, is_delete, delete_time, create_time, 
+    last_modified
+  </sql>
+  <sql id="Blob_Column_List">
+    parking_fee_standard
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="pojo.MallExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mall
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="pojo.MallExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from mall
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mall
+    where mall_serial = #{mallSerial,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mall
+    where mall_serial = #{mallSerial,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.MallExample">
+    delete from mall
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.Mall">
+    insert into mall (mall_serial, admin_account_id, mall_name, 
+      service_tel, is_delete, delete_time, 
+      create_time, last_modified, parking_fee_standard
+      )
+    values (#{mallSerial,jdbcType=INTEGER}, #{adminAccountId,jdbcType=INTEGER}, #{mallName,jdbcType=VARCHAR}, 
+      #{serviceTel,jdbcType=VARCHAR}, #{isDelete,jdbcType=BIT}, #{deleteTime,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=VARCHAR}, #{lastModified,jdbcType=VARCHAR}, #{parkingFeeStandard,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.Mall">
+    insert into mall
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mallSerial != null">
+        mall_serial,
+      </if>
+      <if test="adminAccountId != null">
+        admin_account_id,
+      </if>
+      <if test="mallName != null">
+        mall_name,
+      </if>
+      <if test="serviceTel != null">
+        service_tel,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastModified != null">
+        last_modified,
+      </if>
+      <if test="parkingFeeStandard != null">
+        parking_fee_standard,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mallSerial != null">
+        #{mallSerial,jdbcType=INTEGER},
+      </if>
+      <if test="adminAccountId != null">
+        #{adminAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="mallName != null">
+        #{mallName,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceTel != null">
+        #{serviceTel,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        #{lastModified,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingFeeStandard != null">
+        #{parkingFeeStandard,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.MallExample" resultType="java.lang.Long">
+    select count(*) from mall
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update mall
+    <set>
+      <if test="record.mallSerial != null">
+        mall_serial = #{record.mallSerial,jdbcType=INTEGER},
+      </if>
+      <if test="record.adminAccountId != null">
+        admin_account_id = #{record.adminAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.mallName != null">
+        mall_name = #{record.mallName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serviceTel != null">
+        service_tel = #{record.serviceTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=BIT},
+      </if>
+      <if test="record.deleteTime != null">
+        delete_time = #{record.deleteTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastModified != null">
+        last_modified = #{record.lastModified,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parkingFeeStandard != null">
+        parking_fee_standard = #{record.parkingFeeStandard,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update mall
+    set mall_serial = #{record.mallSerial,jdbcType=INTEGER},
+      admin_account_id = #{record.adminAccountId,jdbcType=INTEGER},
+      mall_name = #{record.mallName,jdbcType=VARCHAR},
+      service_tel = #{record.serviceTel,jdbcType=VARCHAR},
+      is_delete = #{record.isDelete,jdbcType=BIT},
+      delete_time = #{record.deleteTime,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      last_modified = #{record.lastModified,jdbcType=VARCHAR},
+      parking_fee_standard = #{record.parkingFeeStandard,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update mall
+    set mall_serial = #{record.mallSerial,jdbcType=INTEGER},
+      admin_account_id = #{record.adminAccountId,jdbcType=INTEGER},
+      mall_name = #{record.mallName,jdbcType=VARCHAR},
+      service_tel = #{record.serviceTel,jdbcType=VARCHAR},
+      is_delete = #{record.isDelete,jdbcType=BIT},
+      delete_time = #{record.deleteTime,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      last_modified = #{record.lastModified,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.Mall">
+    update mall
+    <set>
+      <if test="adminAccountId != null">
+        admin_account_id = #{adminAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="mallName != null">
+        mall_name = #{mallName,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceTel != null">
+        service_tel = #{serviceTel,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        last_modified = #{lastModified,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingFeeStandard != null">
+        parking_fee_standard = #{parkingFeeStandard,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where mall_serial = #{mallSerial,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="pojo.Mall">
+    update mall
+    set admin_account_id = #{adminAccountId,jdbcType=INTEGER},
+      mall_name = #{mallName,jdbcType=VARCHAR},
+      service_tel = #{serviceTel,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=BIT},
+      delete_time = #{deleteTime,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      last_modified = #{lastModified,jdbcType=VARCHAR},
+      parking_fee_standard = #{parkingFeeStandard,jdbcType=LONGVARCHAR}
+    where mall_serial = #{mallSerial,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.Mall">
+    update mall
+    set admin_account_id = #{adminAccountId,jdbcType=INTEGER},
+      mall_name = #{mallName,jdbcType=VARCHAR},
+      service_tel = #{serviceTel,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=BIT},
+      delete_time = #{deleteTime,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      last_modified = #{lastModified,jdbcType=VARCHAR}
+    where mall_serial = #{mallSerial,jdbcType=INTEGER}
+  </update>
+</mapper>

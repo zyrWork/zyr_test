@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ShopExtendMapper">
+  <resultMap id="BaseResultMap" type="pojo.ShopExtend">
+    <id column="extend_serial" jdbcType="INTEGER" property="extendSerial" />
+    <result column="shop_account_id" jdbcType="INTEGER" property="shopAccountId" />
+    <result column="waiting_service_status" jdbcType="SMALLINT" property="waitingServiceStatus" />
+    <result column="current_wating_number" jdbcType="INTEGER" property="currentWatingNumber" />
+    <result column="remind_number" jdbcType="INTEGER" property="remindNumber" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="last_modified" jdbcType="VARCHAR" property="lastModified" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    extend_serial, shop_account_id, waiting_service_status, current_wating_number, remind_number, 
+    create_time, last_modified
+  </sql>
+  <select id="selectByExample" parameterType="pojo.ShopExtendExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from shop_extend
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shop_extend
+    where extend_serial = #{extendSerial,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from shop_extend
+    where extend_serial = #{extendSerial,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.ShopExtendExample">
+    delete from shop_extend
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.ShopExtend">
+    insert into shop_extend (extend_serial, shop_account_id, waiting_service_status, 
+      current_wating_number, remind_number, create_time, 
+      last_modified)
+    values (#{extendSerial,jdbcType=INTEGER}, #{shopAccountId,jdbcType=INTEGER}, #{waitingServiceStatus,jdbcType=SMALLINT}, 
+      #{currentWatingNumber,jdbcType=INTEGER}, #{remindNumber,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, 
+      #{lastModified,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.ShopExtend">
+    insert into shop_extend
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="extendSerial != null">
+        extend_serial,
+      </if>
+      <if test="shopAccountId != null">
+        shop_account_id,
+      </if>
+      <if test="waitingServiceStatus != null">
+        waiting_service_status,
+      </if>
+      <if test="currentWatingNumber != null">
+        current_wating_number,
+      </if>
+      <if test="remindNumber != null">
+        remind_number,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastModified != null">
+        last_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="extendSerial != null">
+        #{extendSerial,jdbcType=INTEGER},
+      </if>
+      <if test="shopAccountId != null">
+        #{shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="waitingServiceStatus != null">
+        #{waitingServiceStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="currentWatingNumber != null">
+        #{currentWatingNumber,jdbcType=INTEGER},
+      </if>
+      <if test="remindNumber != null">
+        #{remindNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        #{lastModified,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.ShopExtendExample" resultType="java.lang.Long">
+    select count(*) from shop_extend
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update shop_extend
+    <set>
+      <if test="record.extendSerial != null">
+        extend_serial = #{record.extendSerial,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopAccountId != null">
+        shop_account_id = #{record.shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.waitingServiceStatus != null">
+        waiting_service_status = #{record.waitingServiceStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="record.currentWatingNumber != null">
+        current_wating_number = #{record.currentWatingNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.remindNumber != null">
+        remind_number = #{record.remindNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastModified != null">
+        last_modified = #{record.lastModified,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update shop_extend
+    set extend_serial = #{record.extendSerial,jdbcType=INTEGER},
+      shop_account_id = #{record.shopAccountId,jdbcType=INTEGER},
+      waiting_service_status = #{record.waitingServiceStatus,jdbcType=SMALLINT},
+      current_wating_number = #{record.currentWatingNumber,jdbcType=INTEGER},
+      remind_number = #{record.remindNumber,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      last_modified = #{record.lastModified,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.ShopExtend">
+    update shop_extend
+    <set>
+      <if test="shopAccountId != null">
+        shop_account_id = #{shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="waitingServiceStatus != null">
+        waiting_service_status = #{waitingServiceStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="currentWatingNumber != null">
+        current_wating_number = #{currentWatingNumber,jdbcType=INTEGER},
+      </if>
+      <if test="remindNumber != null">
+        remind_number = #{remindNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        last_modified = #{lastModified,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where extend_serial = #{extendSerial,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.ShopExtend">
+    update shop_extend
+    set shop_account_id = #{shopAccountId,jdbcType=INTEGER},
+      waiting_service_status = #{waitingServiceStatus,jdbcType=SMALLINT},
+      current_wating_number = #{currentWatingNumber,jdbcType=INTEGER},
+      remind_number = #{remindNumber,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      last_modified = #{lastModified,jdbcType=VARCHAR}
+    where extend_serial = #{extendSerial,jdbcType=INTEGER}
+  </update>
+</mapper>

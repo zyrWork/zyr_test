@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ShopMapper">
+  <resultMap id="BaseResultMap" type="pojo.Shop">
+    <id column="shop_serial" jdbcType="INTEGER" property="shopSerial" />
+    <result column="shop_account_id" jdbcType="INTEGER" property="shopAccountId" />
+    <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
+    <result column="shop_logo" jdbcType="VARCHAR" property="shopLogo" />
+    <result column="shop_type" jdbcType="VARCHAR" property="shopType" />
+    <result column="shop_feature" jdbcType="VARCHAR" property="shopFeature" />
+    <result column="shop_tel" jdbcType="VARCHAR" property="shopTel" />
+    <result column="shop_floor_no" jdbcType="VARCHAR" property="shopFloorNo" />
+    <result column="shop_room_no" jdbcType="VARCHAR" property="shopRoomNo" />
+    <result column="business_hours" jdbcType="VARCHAR" property="businessHours" />
+    <result column="average_price" jdbcType="DECIMAL" property="averagePrice" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    <result column="delete_time" jdbcType="VARCHAR" property="deleteTime" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="last_modified" jdbcType="VARCHAR" property="lastModified" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="pojo.ShopWithBLOBs">
+    <result column="shop_address" jdbcType="LONGVARCHAR" property="shopAddress" />
+    <result column="activity_info" jdbcType="LONGVARCHAR" property="activityInfo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    shop_serial, shop_account_id, shop_name, shop_logo, shop_type, shop_feature, shop_tel, 
+    shop_floor_no, shop_room_no, business_hours, average_price, is_delete, delete_time, 
+    create_time, last_modified
+  </sql>
+  <sql id="Blob_Column_List">
+    shop_address, activity_info
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="pojo.ShopExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from shop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="pojo.ShopExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from shop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from shop
+    where shop_serial = #{shopSerial,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from shop
+    where shop_serial = #{shopSerial,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.ShopExample">
+    delete from shop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.ShopWithBLOBs">
+    insert into shop (shop_serial, shop_account_id, shop_name, 
+      shop_logo, shop_type, shop_feature, 
+      shop_tel, shop_floor_no, shop_room_no, 
+      business_hours, average_price, is_delete, 
+      delete_time, create_time, last_modified, 
+      shop_address, activity_info)
+    values (#{shopSerial,jdbcType=INTEGER}, #{shopAccountId,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR}, 
+      #{shopLogo,jdbcType=VARCHAR}, #{shopType,jdbcType=VARCHAR}, #{shopFeature,jdbcType=VARCHAR}, 
+      #{shopTel,jdbcType=VARCHAR}, #{shopFloorNo,jdbcType=VARCHAR}, #{shopRoomNo,jdbcType=VARCHAR}, 
+      #{businessHours,jdbcType=VARCHAR}, #{averagePrice,jdbcType=DECIMAL}, #{isDelete,jdbcType=BIT}, 
+      #{deleteTime,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{lastModified,jdbcType=VARCHAR}, 
+      #{shopAddress,jdbcType=LONGVARCHAR}, #{activityInfo,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.ShopWithBLOBs">
+    insert into shop
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shopSerial != null">
+        shop_serial,
+      </if>
+      <if test="shopAccountId != null">
+        shop_account_id,
+      </if>
+      <if test="shopName != null">
+        shop_name,
+      </if>
+      <if test="shopLogo != null">
+        shop_logo,
+      </if>
+      <if test="shopType != null">
+        shop_type,
+      </if>
+      <if test="shopFeature != null">
+        shop_feature,
+      </if>
+      <if test="shopTel != null">
+        shop_tel,
+      </if>
+      <if test="shopFloorNo != null">
+        shop_floor_no,
+      </if>
+      <if test="shopRoomNo != null">
+        shop_room_no,
+      </if>
+      <if test="businessHours != null">
+        business_hours,
+      </if>
+      <if test="averagePrice != null">
+        average_price,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastModified != null">
+        last_modified,
+      </if>
+      <if test="shopAddress != null">
+        shop_address,
+      </if>
+      <if test="activityInfo != null">
+        activity_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shopSerial != null">
+        #{shopSerial,jdbcType=INTEGER},
+      </if>
+      <if test="shopAccountId != null">
+        #{shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null">
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopLogo != null">
+        #{shopLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="shopType != null">
+        #{shopType,jdbcType=VARCHAR},
+      </if>
+      <if test="shopFeature != null">
+        #{shopFeature,jdbcType=VARCHAR},
+      </if>
+      <if test="shopTel != null">
+        #{shopTel,jdbcType=VARCHAR},
+      </if>
+      <if test="shopFloorNo != null">
+        #{shopFloorNo,jdbcType=VARCHAR},
+      </if>
+      <if test="shopRoomNo != null">
+        #{shopRoomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="businessHours != null">
+        #{businessHours,jdbcType=VARCHAR},
+      </if>
+      <if test="averagePrice != null">
+        #{averagePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        #{lastModified,jdbcType=VARCHAR},
+      </if>
+      <if test="shopAddress != null">
+        #{shopAddress,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="activityInfo != null">
+        #{activityInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.ShopExample" resultType="java.lang.Long">
+    select count(*) from shop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update shop
+    <set>
+      <if test="record.shopSerial != null">
+        shop_serial = #{record.shopSerial,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopAccountId != null">
+        shop_account_id = #{record.shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopName != null">
+        shop_name = #{record.shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopLogo != null">
+        shop_logo = #{record.shopLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopType != null">
+        shop_type = #{record.shopType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopFeature != null">
+        shop_feature = #{record.shopFeature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopTel != null">
+        shop_tel = #{record.shopTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopFloorNo != null">
+        shop_floor_no = #{record.shopFloorNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopRoomNo != null">
+        shop_room_no = #{record.shopRoomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessHours != null">
+        business_hours = #{record.businessHours,jdbcType=VARCHAR},
+      </if>
+      <if test="record.averagePrice != null">
+        average_price = #{record.averagePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=BIT},
+      </if>
+      <if test="record.deleteTime != null">
+        delete_time = #{record.deleteTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastModified != null">
+        last_modified = #{record.lastModified,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopAddress != null">
+        shop_address = #{record.shopAddress,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.activityInfo != null">
+        activity_info = #{record.activityInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update shop
+    set shop_serial = #{record.shopSerial,jdbcType=INTEGER},
+      shop_account_id = #{record.shopAccountId,jdbcType=INTEGER},
+      shop_name = #{record.shopName,jdbcType=VARCHAR},
+      shop_logo = #{record.shopLogo,jdbcType=VARCHAR},
+      shop_type = #{record.shopType,jdbcType=VARCHAR},
+      shop_feature = #{record.shopFeature,jdbcType=VARCHAR},
+      shop_tel = #{record.shopTel,jdbcType=VARCHAR},
+      shop_floor_no = #{record.shopFloorNo,jdbcType=VARCHAR},
+      shop_room_no = #{record.shopRoomNo,jdbcType=VARCHAR},
+      business_hours = #{record.businessHours,jdbcType=VARCHAR},
+      average_price = #{record.averagePrice,jdbcType=DECIMAL},
+      is_delete = #{record.isDelete,jdbcType=BIT},
+      delete_time = #{record.deleteTime,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      last_modified = #{record.lastModified,jdbcType=VARCHAR},
+      shop_address = #{record.shopAddress,jdbcType=LONGVARCHAR},
+      activity_info = #{record.activityInfo,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update shop
+    set shop_serial = #{record.shopSerial,jdbcType=INTEGER},
+      shop_account_id = #{record.shopAccountId,jdbcType=INTEGER},
+      shop_name = #{record.shopName,jdbcType=VARCHAR},
+      shop_logo = #{record.shopLogo,jdbcType=VARCHAR},
+      shop_type = #{record.shopType,jdbcType=VARCHAR},
+      shop_feature = #{record.shopFeature,jdbcType=VARCHAR},
+      shop_tel = #{record.shopTel,jdbcType=VARCHAR},
+      shop_floor_no = #{record.shopFloorNo,jdbcType=VARCHAR},
+      shop_room_no = #{record.shopRoomNo,jdbcType=VARCHAR},
+      business_hours = #{record.businessHours,jdbcType=VARCHAR},
+      average_price = #{record.averagePrice,jdbcType=DECIMAL},
+      is_delete = #{record.isDelete,jdbcType=BIT},
+      delete_time = #{record.deleteTime,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      last_modified = #{record.lastModified,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.ShopWithBLOBs">
+    update shop
+    <set>
+      <if test="shopAccountId != null">
+        shop_account_id = #{shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null">
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopLogo != null">
+        shop_logo = #{shopLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="shopType != null">
+        shop_type = #{shopType,jdbcType=VARCHAR},
+      </if>
+      <if test="shopFeature != null">
+        shop_feature = #{shopFeature,jdbcType=VARCHAR},
+      </if>
+      <if test="shopTel != null">
+        shop_tel = #{shopTel,jdbcType=VARCHAR},
+      </if>
+      <if test="shopFloorNo != null">
+        shop_floor_no = #{shopFloorNo,jdbcType=VARCHAR},
+      </if>
+      <if test="shopRoomNo != null">
+        shop_room_no = #{shopRoomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="businessHours != null">
+        business_hours = #{businessHours,jdbcType=VARCHAR},
+      </if>
+      <if test="averagePrice != null">
+        average_price = #{averagePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        last_modified = #{lastModified,jdbcType=VARCHAR},
+      </if>
+      <if test="shopAddress != null">
+        shop_address = #{shopAddress,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="activityInfo != null">
+        activity_info = #{activityInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where shop_serial = #{shopSerial,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="pojo.ShopWithBLOBs">
+    update shop
+    set shop_account_id = #{shopAccountId,jdbcType=INTEGER},
+      shop_name = #{shopName,jdbcType=VARCHAR},
+      shop_logo = #{shopLogo,jdbcType=VARCHAR},
+      shop_type = #{shopType,jdbcType=VARCHAR},
+      shop_feature = #{shopFeature,jdbcType=VARCHAR},
+      shop_tel = #{shopTel,jdbcType=VARCHAR},
+      shop_floor_no = #{shopFloorNo,jdbcType=VARCHAR},
+      shop_room_no = #{shopRoomNo,jdbcType=VARCHAR},
+      business_hours = #{businessHours,jdbcType=VARCHAR},
+      average_price = #{averagePrice,jdbcType=DECIMAL},
+      is_delete = #{isDelete,jdbcType=BIT},
+      delete_time = #{deleteTime,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      last_modified = #{lastModified,jdbcType=VARCHAR},
+      shop_address = #{shopAddress,jdbcType=LONGVARCHAR},
+      activity_info = #{activityInfo,jdbcType=LONGVARCHAR}
+    where shop_serial = #{shopSerial,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.Shop">
+    update shop
+    set shop_account_id = #{shopAccountId,jdbcType=INTEGER},
+      shop_name = #{shopName,jdbcType=VARCHAR},
+      shop_logo = #{shopLogo,jdbcType=VARCHAR},
+      shop_type = #{shopType,jdbcType=VARCHAR},
+      shop_feature = #{shopFeature,jdbcType=VARCHAR},
+      shop_tel = #{shopTel,jdbcType=VARCHAR},
+      shop_floor_no = #{shopFloorNo,jdbcType=VARCHAR},
+      shop_room_no = #{shopRoomNo,jdbcType=VARCHAR},
+      business_hours = #{businessHours,jdbcType=VARCHAR},
+      average_price = #{averagePrice,jdbcType=DECIMAL},
+      is_delete = #{isDelete,jdbcType=BIT},
+      delete_time = #{deleteTime,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      last_modified = #{lastModified,jdbcType=VARCHAR}
+    where shop_serial = #{shopSerial,jdbcType=INTEGER}
+  </update>
+</mapper>

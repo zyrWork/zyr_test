@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ShopTableInfoMapper">
+  <resultMap id="BaseResultMap" type="pojo.ShopTableInfo">
+    <id column="seat_type_serial" jdbcType="INTEGER" property="seatTypeSerial" />
+    <result column="shop_account_id" jdbcType="INTEGER" property="shopAccountId" />
+    <result column="small_table_num" jdbcType="INTEGER" property="smallTableNum" />
+    <result column="table_num" jdbcType="INTEGER" property="tableNum" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="last_modified" jdbcType="VARCHAR" property="lastModified" />
+    <result column="middle_table_num" jdbcType="INTEGER" property="middleTableNum" />
+    <result column="big_table_num" jdbcType="INTEGER" property="bigTableNum" />
+    <result column="small_threshold" jdbcType="INTEGER" property="smallThreshold" />
+    <result column="middle_threshold" jdbcType="INTEGER" property="middleThreshold" />
+    <result column="big_threshold" jdbcType="INTEGER" property="bigThreshold" />
+    <result column="queue_is_open" jdbcType="TINYINT" property="queueIsOpen" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    seat_type_serial, shop_account_id, small_table_num, table_num, create_time, last_modified, 
+    middle_table_num, big_table_num, small_threshold, middle_threshold, big_threshold, 
+    queue_is_open
+  </sql>
+  <select id="selectByExample" parameterType="pojo.ShopTableInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from shop_table_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shop_table_info
+    where seat_type_serial = #{seatTypeSerial,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from shop_table_info
+    where seat_type_serial = #{seatTypeSerial,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.ShopTableInfoExample">
+    delete from shop_table_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.ShopTableInfo">
+    insert into shop_table_info (seat_type_serial, shop_account_id, small_table_num, 
+      table_num, create_time, last_modified, 
+      middle_table_num, big_table_num, small_threshold, 
+      middle_threshold, big_threshold, queue_is_open
+      )
+    values (#{seatTypeSerial,jdbcType=INTEGER}, #{shopAccountId,jdbcType=INTEGER}, #{smallTableNum,jdbcType=INTEGER}, 
+      #{tableNum,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, #{lastModified,jdbcType=VARCHAR}, 
+      #{middleTableNum,jdbcType=INTEGER}, #{bigTableNum,jdbcType=INTEGER}, #{smallThreshold,jdbcType=INTEGER}, 
+      #{middleThreshold,jdbcType=INTEGER}, #{bigThreshold,jdbcType=INTEGER}, #{queueIsOpen,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.ShopTableInfo">
+    insert into shop_table_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="seatTypeSerial != null">
+        seat_type_serial,
+      </if>
+      <if test="shopAccountId != null">
+        shop_account_id,
+      </if>
+      <if test="smallTableNum != null">
+        small_table_num,
+      </if>
+      <if test="tableNum != null">
+        table_num,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastModified != null">
+        last_modified,
+      </if>
+      <if test="middleTableNum != null">
+        middle_table_num,
+      </if>
+      <if test="bigTableNum != null">
+        big_table_num,
+      </if>
+      <if test="smallThreshold != null">
+        small_threshold,
+      </if>
+      <if test="middleThreshold != null">
+        middle_threshold,
+      </if>
+      <if test="bigThreshold != null">
+        big_threshold,
+      </if>
+      <if test="queueIsOpen != null">
+        queue_is_open,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="seatTypeSerial != null">
+        #{seatTypeSerial,jdbcType=INTEGER},
+      </if>
+      <if test="shopAccountId != null">
+        #{shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="smallTableNum != null">
+        #{smallTableNum,jdbcType=INTEGER},
+      </if>
+      <if test="tableNum != null">
+        #{tableNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        #{lastModified,jdbcType=VARCHAR},
+      </if>
+      <if test="middleTableNum != null">
+        #{middleTableNum,jdbcType=INTEGER},
+      </if>
+      <if test="bigTableNum != null">
+        #{bigTableNum,jdbcType=INTEGER},
+      </if>
+      <if test="smallThreshold != null">
+        #{smallThreshold,jdbcType=INTEGER},
+      </if>
+      <if test="middleThreshold != null">
+        #{middleThreshold,jdbcType=INTEGER},
+      </if>
+      <if test="bigThreshold != null">
+        #{bigThreshold,jdbcType=INTEGER},
+      </if>
+      <if test="queueIsOpen != null">
+        #{queueIsOpen,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.ShopTableInfoExample" resultType="java.lang.Long">
+    select count(*) from shop_table_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update shop_table_info
+    <set>
+      <if test="record.seatTypeSerial != null">
+        seat_type_serial = #{record.seatTypeSerial,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopAccountId != null">
+        shop_account_id = #{record.shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.smallTableNum != null">
+        small_table_num = #{record.smallTableNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.tableNum != null">
+        table_num = #{record.tableNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastModified != null">
+        last_modified = #{record.lastModified,jdbcType=VARCHAR},
+      </if>
+      <if test="record.middleTableNum != null">
+        middle_table_num = #{record.middleTableNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.bigTableNum != null">
+        big_table_num = #{record.bigTableNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.smallThreshold != null">
+        small_threshold = #{record.smallThreshold,jdbcType=INTEGER},
+      </if>
+      <if test="record.middleThreshold != null">
+        middle_threshold = #{record.middleThreshold,jdbcType=INTEGER},
+      </if>
+      <if test="record.bigThreshold != null">
+        big_threshold = #{record.bigThreshold,jdbcType=INTEGER},
+      </if>
+      <if test="record.queueIsOpen != null">
+        queue_is_open = #{record.queueIsOpen,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update shop_table_info
+    set seat_type_serial = #{record.seatTypeSerial,jdbcType=INTEGER},
+      shop_account_id = #{record.shopAccountId,jdbcType=INTEGER},
+      small_table_num = #{record.smallTableNum,jdbcType=INTEGER},
+      table_num = #{record.tableNum,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      last_modified = #{record.lastModified,jdbcType=VARCHAR},
+      middle_table_num = #{record.middleTableNum,jdbcType=INTEGER},
+      big_table_num = #{record.bigTableNum,jdbcType=INTEGER},
+      small_threshold = #{record.smallThreshold,jdbcType=INTEGER},
+      middle_threshold = #{record.middleThreshold,jdbcType=INTEGER},
+      big_threshold = #{record.bigThreshold,jdbcType=INTEGER},
+      queue_is_open = #{record.queueIsOpen,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.ShopTableInfo">
+    update shop_table_info
+    <set>
+      <if test="shopAccountId != null">
+        shop_account_id = #{shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="smallTableNum != null">
+        small_table_num = #{smallTableNum,jdbcType=INTEGER},
+      </if>
+      <if test="tableNum != null">
+        table_num = #{tableNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        last_modified = #{lastModified,jdbcType=VARCHAR},
+      </if>
+      <if test="middleTableNum != null">
+        middle_table_num = #{middleTableNum,jdbcType=INTEGER},
+      </if>
+      <if test="bigTableNum != null">
+        big_table_num = #{bigTableNum,jdbcType=INTEGER},
+      </if>
+      <if test="smallThreshold != null">
+        small_threshold = #{smallThreshold,jdbcType=INTEGER},
+      </if>
+      <if test="middleThreshold != null">
+        middle_threshold = #{middleThreshold,jdbcType=INTEGER},
+      </if>
+      <if test="bigThreshold != null">
+        big_threshold = #{bigThreshold,jdbcType=INTEGER},
+      </if>
+      <if test="queueIsOpen != null">
+        queue_is_open = #{queueIsOpen,jdbcType=TINYINT},
+      </if>
+    </set>
+    where seat_type_serial = #{seatTypeSerial,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.ShopTableInfo">
+    update shop_table_info
+    set shop_account_id = #{shopAccountId,jdbcType=INTEGER},
+      small_table_num = #{smallTableNum,jdbcType=INTEGER},
+      table_num = #{tableNum,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      last_modified = #{lastModified,jdbcType=VARCHAR},
+      middle_table_num = #{middleTableNum,jdbcType=INTEGER},
+      big_table_num = #{bigTableNum,jdbcType=INTEGER},
+      small_threshold = #{smallThreshold,jdbcType=INTEGER},
+      middle_threshold = #{middleThreshold,jdbcType=INTEGER},
+      big_threshold = #{bigThreshold,jdbcType=INTEGER},
+      queue_is_open = #{queueIsOpen,jdbcType=TINYINT}
+    where seat_type_serial = #{seatTypeSerial,jdbcType=INTEGER}
+  </update>
+</mapper>

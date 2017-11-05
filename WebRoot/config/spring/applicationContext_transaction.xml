@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>   
+<beans xmlns="http://www.springframework.org/schema/beans"  
+ xmlns:aop="http://www.springframework.org/schema/aop" 
+ xmlns:mvc="http://www.springframework.org/schema/mvc"  
+ xmlns:context="http://www.springframework.org/schema/context"  
+ xmlns:p="http://www.springframework.org/schema/p" 
+ xmlns:tx="http://www.springframework.org/schema/tx"  
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+ xsi:schemaLocation="   
+ 		http://www.springframework.org/schema/mvc 
+ 		http://www.springframework.org/schema/mvc/spring-mvc.xsd 
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd   
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd   
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd   
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">  
+		
+	<!-- 事务管理 ：对mabatis操作数据库进行事务控制，spring用jdbc进行事务控制-->
+		<bean id="TransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+			<!-- 数据源 -->
+				<property name="dataSource" ref="dataSource"></property>
+		</bean>
+		
+		
+		<!--开启基于注解的事务管理 -->
+  <tx:annotation-driven transaction-manager="TransactionManager"
+                        proxy-target-class="true"/>
+		
+		
+</beans>		

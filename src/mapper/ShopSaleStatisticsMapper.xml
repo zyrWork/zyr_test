@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ShopSaleStatisticsMapper">
+  <resultMap id="BaseResultMap" type="pojo.ShopSaleStatistics">
+    <id column="shop_sale_statistics_serial" jdbcType="INTEGER" property="shopSaleStatisticsSerial" />
+    <result column="shop_account_id" jdbcType="INTEGER" property="shopAccountId" />
+    <result column="shop_order_count" jdbcType="INTEGER" property="shopOrderCount" />
+    <result column="shop_order_amount" jdbcType="DECIMAL" property="shopOrderAmount" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="last_modified" jdbcType="VARCHAR" property="lastModified" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    shop_sale_statistics_serial, shop_account_id, shop_order_count, shop_order_amount, 
+    create_time, last_modified
+  </sql>
+  <select id="selectByExample" parameterType="pojo.ShopSaleStatisticsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from shop_sale_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shop_sale_statistics
+    where shop_sale_statistics_serial = #{shopSaleStatisticsSerial,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from shop_sale_statistics
+    where shop_sale_statistics_serial = #{shopSaleStatisticsSerial,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.ShopSaleStatisticsExample">
+    delete from shop_sale_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.ShopSaleStatistics">
+    insert into shop_sale_statistics (shop_sale_statistics_serial, shop_account_id, 
+      shop_order_count, shop_order_amount, create_time, 
+      last_modified)
+    values (#{shopSaleStatisticsSerial,jdbcType=INTEGER}, #{shopAccountId,jdbcType=INTEGER}, 
+      #{shopOrderCount,jdbcType=INTEGER}, #{shopOrderAmount,jdbcType=DECIMAL}, #{createTime,jdbcType=VARCHAR}, 
+      #{lastModified,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.ShopSaleStatistics">
+    insert into shop_sale_statistics
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shopSaleStatisticsSerial != null">
+        shop_sale_statistics_serial,
+      </if>
+      <if test="shopAccountId != null">
+        shop_account_id,
+      </if>
+      <if test="shopOrderCount != null">
+        shop_order_count,
+      </if>
+      <if test="shopOrderAmount != null">
+        shop_order_amount,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastModified != null">
+        last_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shopSaleStatisticsSerial != null">
+        #{shopSaleStatisticsSerial,jdbcType=INTEGER},
+      </if>
+      <if test="shopAccountId != null">
+        #{shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="shopOrderCount != null">
+        #{shopOrderCount,jdbcType=INTEGER},
+      </if>
+      <if test="shopOrderAmount != null">
+        #{shopOrderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        #{lastModified,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.ShopSaleStatisticsExample" resultType="java.lang.Long">
+    select count(*) from shop_sale_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update shop_sale_statistics
+    <set>
+      <if test="record.shopSaleStatisticsSerial != null">
+        shop_sale_statistics_serial = #{record.shopSaleStatisticsSerial,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopAccountId != null">
+        shop_account_id = #{record.shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopOrderCount != null">
+        shop_order_count = #{record.shopOrderCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopOrderAmount != null">
+        shop_order_amount = #{record.shopOrderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastModified != null">
+        last_modified = #{record.lastModified,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update shop_sale_statistics
+    set shop_sale_statistics_serial = #{record.shopSaleStatisticsSerial,jdbcType=INTEGER},
+      shop_account_id = #{record.shopAccountId,jdbcType=INTEGER},
+      shop_order_count = #{record.shopOrderCount,jdbcType=INTEGER},
+      shop_order_amount = #{record.shopOrderAmount,jdbcType=DECIMAL},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      last_modified = #{record.lastModified,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.ShopSaleStatistics">
+    update shop_sale_statistics
+    <set>
+      <if test="shopAccountId != null">
+        shop_account_id = #{shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="shopOrderCount != null">
+        shop_order_count = #{shopOrderCount,jdbcType=INTEGER},
+      </if>
+      <if test="shopOrderAmount != null">
+        shop_order_amount = #{shopOrderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        last_modified = #{lastModified,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where shop_sale_statistics_serial = #{shopSaleStatisticsSerial,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.ShopSaleStatistics">
+    update shop_sale_statistics
+    set shop_account_id = #{shopAccountId,jdbcType=INTEGER},
+      shop_order_count = #{shopOrderCount,jdbcType=INTEGER},
+      shop_order_amount = #{shopOrderAmount,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      last_modified = #{lastModified,jdbcType=VARCHAR}
+    where shop_sale_statistics_serial = #{shopSaleStatisticsSerial,jdbcType=INTEGER}
+  </update>
+</mapper>

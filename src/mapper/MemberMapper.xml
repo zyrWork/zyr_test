@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.MemberMapper">
+  <resultMap id="BaseResultMap" type="pojo.Member">
+    <id column="member_serial" jdbcType="INTEGER" property="memberSerial" />
+    <result column="member_account_id" jdbcType="INTEGER" property="memberAccountId" />
+    <result column="member_no" jdbcType="VARCHAR" property="memberNo" />
+    <result column="member_qq" jdbcType="VARCHAR" property="memberQq" />
+    <result column="member_mail" jdbcType="VARCHAR" property="memberMail" />
+    <result column="member_type_id" jdbcType="INTEGER" property="memberTypeId" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="last_modified" jdbcType="VARCHAR" property="lastModified" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="pojo.Member">
+    <result column="member_address" jdbcType="LONGVARCHAR" property="memberAddress" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    member_serial, member_account_id, member_no, member_qq, member_mail, member_type_id, 
+    create_time, last_modified
+  </sql>
+  <sql id="Blob_Column_List">
+    member_address
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="pojo.MemberExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="pojo.MemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from member
+    where member_serial = #{memberSerial,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from member
+    where member_serial = #{memberSerial,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.MemberExample">
+    delete from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.Member">
+    insert into member (member_serial, member_account_id, member_no, 
+      member_qq, member_mail, member_type_id, 
+      create_time, last_modified, member_address
+      )
+    values (#{memberSerial,jdbcType=INTEGER}, #{memberAccountId,jdbcType=INTEGER}, #{memberNo,jdbcType=VARCHAR}, 
+      #{memberQq,jdbcType=VARCHAR}, #{memberMail,jdbcType=VARCHAR}, #{memberTypeId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=VARCHAR}, #{lastModified,jdbcType=VARCHAR}, #{memberAddress,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.Member">
+    insert into member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="memberSerial != null">
+        member_serial,
+      </if>
+      <if test="memberAccountId != null">
+        member_account_id,
+      </if>
+      <if test="memberNo != null">
+        member_no,
+      </if>
+      <if test="memberQq != null">
+        member_qq,
+      </if>
+      <if test="memberMail != null">
+        member_mail,
+      </if>
+      <if test="memberTypeId != null">
+        member_type_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastModified != null">
+        last_modified,
+      </if>
+      <if test="memberAddress != null">
+        member_address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="memberSerial != null">
+        #{memberSerial,jdbcType=INTEGER},
+      </if>
+      <if test="memberAccountId != null">
+        #{memberAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="memberNo != null">
+        #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="memberQq != null">
+        #{memberQq,jdbcType=VARCHAR},
+      </if>
+      <if test="memberMail != null">
+        #{memberMail,jdbcType=VARCHAR},
+      </if>
+      <if test="memberTypeId != null">
+        #{memberTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        #{lastModified,jdbcType=VARCHAR},
+      </if>
+      <if test="memberAddress != null">
+        #{memberAddress,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.MemberExample" resultType="java.lang.Long">
+    select count(*) from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update member
+    <set>
+      <if test="record.memberSerial != null">
+        member_serial = #{record.memberSerial,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberAccountId != null">
+        member_account_id = #{record.memberAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberNo != null">
+        member_no = #{record.memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberQq != null">
+        member_qq = #{record.memberQq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberMail != null">
+        member_mail = #{record.memberMail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberTypeId != null">
+        member_type_id = #{record.memberTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastModified != null">
+        last_modified = #{record.lastModified,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberAddress != null">
+        member_address = #{record.memberAddress,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update member
+    set member_serial = #{record.memberSerial,jdbcType=INTEGER},
+      member_account_id = #{record.memberAccountId,jdbcType=INTEGER},
+      member_no = #{record.memberNo,jdbcType=VARCHAR},
+      member_qq = #{record.memberQq,jdbcType=VARCHAR},
+      member_mail = #{record.memberMail,jdbcType=VARCHAR},
+      member_type_id = #{record.memberTypeId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      last_modified = #{record.lastModified,jdbcType=VARCHAR},
+      member_address = #{record.memberAddress,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update member
+    set member_serial = #{record.memberSerial,jdbcType=INTEGER},
+      member_account_id = #{record.memberAccountId,jdbcType=INTEGER},
+      member_no = #{record.memberNo,jdbcType=VARCHAR},
+      member_qq = #{record.memberQq,jdbcType=VARCHAR},
+      member_mail = #{record.memberMail,jdbcType=VARCHAR},
+      member_type_id = #{record.memberTypeId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      last_modified = #{record.lastModified,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.Member">
+    update member
+    <set>
+      <if test="memberAccountId != null">
+        member_account_id = #{memberAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="memberNo != null">
+        member_no = #{memberNo,jdbcType=VARCHAR},
+      </if>
+      <if test="memberQq != null">
+        member_qq = #{memberQq,jdbcType=VARCHAR},
+      </if>
+      <if test="memberMail != null">
+        member_mail = #{memberMail,jdbcType=VARCHAR},
+      </if>
+      <if test="memberTypeId != null">
+        member_type_id = #{memberTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        last_modified = #{lastModified,jdbcType=VARCHAR},
+      </if>
+      <if test="memberAddress != null">
+        member_address = #{memberAddress,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where member_serial = #{memberSerial,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="pojo.Member">
+    update member
+    set member_account_id = #{memberAccountId,jdbcType=INTEGER},
+      member_no = #{memberNo,jdbcType=VARCHAR},
+      member_qq = #{memberQq,jdbcType=VARCHAR},
+      member_mail = #{memberMail,jdbcType=VARCHAR},
+      member_type_id = #{memberTypeId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      last_modified = #{lastModified,jdbcType=VARCHAR},
+      member_address = #{memberAddress,jdbcType=LONGVARCHAR}
+    where member_serial = #{memberSerial,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.Member">
+    update member
+    set member_account_id = #{memberAccountId,jdbcType=INTEGER},
+      member_no = #{memberNo,jdbcType=VARCHAR},
+      member_qq = #{memberQq,jdbcType=VARCHAR},
+      member_mail = #{memberMail,jdbcType=VARCHAR},
+      member_type_id = #{memberTypeId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      last_modified = #{lastModified,jdbcType=VARCHAR}
+    where member_serial = #{memberSerial,jdbcType=INTEGER}
+  </update>
+</mapper>

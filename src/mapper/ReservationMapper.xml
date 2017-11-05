@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ReservationMapper">
+  <resultMap id="BaseResultMap" type="pojo.Reservation">
+    <id column="reservation_serial" jdbcType="INTEGER" property="reservationSerial" />
+    <result column="shop_account_id" jdbcType="INTEGER" property="shopAccountId" />
+    <result column="member_account_id" jdbcType="INTEGER" property="memberAccountId" />
+    <result column="customers_number" jdbcType="SMALLINT" property="customersNumber" />
+    <result column="reservation_name" jdbcType="VARCHAR" property="reservationName" />
+    <result column="reservation_tel" jdbcType="VARCHAR" property="reservationTel" />
+    <result column="arrival_time" jdbcType="VARCHAR" property="arrivalTime" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="last_modified" jdbcType="VARCHAR" property="lastModified" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    reservation_serial, shop_account_id, member_account_id, customers_number, reservation_name, 
+    reservation_tel, arrival_time, remarks, create_time, last_modified
+  </sql>
+  <select id="selectByExample" parameterType="pojo.ReservationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from reservation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from reservation
+    where reservation_serial = #{reservationSerial,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from reservation
+    where reservation_serial = #{reservationSerial,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.ReservationExample">
+    delete from reservation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.Reservation">
+    insert into reservation (reservation_serial, shop_account_id, 
+      member_account_id, customers_number, reservation_name, 
+      reservation_tel, arrival_time, remarks, 
+      create_time, last_modified)
+    values (#{reservationSerial,jdbcType=INTEGER}, #{shopAccountId,jdbcType=INTEGER}, 
+      #{memberAccountId,jdbcType=INTEGER}, #{customersNumber,jdbcType=SMALLINT}, #{reservationName,jdbcType=VARCHAR}, 
+      #{reservationTel,jdbcType=VARCHAR}, #{arrivalTime,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=VARCHAR}, #{lastModified,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.Reservation">
+    insert into reservation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="reservationSerial != null">
+        reservation_serial,
+      </if>
+      <if test="shopAccountId != null">
+        shop_account_id,
+      </if>
+      <if test="memberAccountId != null">
+        member_account_id,
+      </if>
+      <if test="customersNumber != null">
+        customers_number,
+      </if>
+      <if test="reservationName != null">
+        reservation_name,
+      </if>
+      <if test="reservationTel != null">
+        reservation_tel,
+      </if>
+      <if test="arrivalTime != null">
+        arrival_time,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastModified != null">
+        last_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="reservationSerial != null">
+        #{reservationSerial,jdbcType=INTEGER},
+      </if>
+      <if test="shopAccountId != null">
+        #{shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="memberAccountId != null">
+        #{memberAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="customersNumber != null">
+        #{customersNumber,jdbcType=SMALLINT},
+      </if>
+      <if test="reservationName != null">
+        #{reservationName,jdbcType=VARCHAR},
+      </if>
+      <if test="reservationTel != null">
+        #{reservationTel,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalTime != null">
+        #{arrivalTime,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        #{lastModified,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.ReservationExample" resultType="java.lang.Long">
+    select count(*) from reservation
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update reservation
+    <set>
+      <if test="record.reservationSerial != null">
+        reservation_serial = #{record.reservationSerial,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopAccountId != null">
+        shop_account_id = #{record.shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberAccountId != null">
+        member_account_id = #{record.memberAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.customersNumber != null">
+        customers_number = #{record.customersNumber,jdbcType=SMALLINT},
+      </if>
+      <if test="record.reservationName != null">
+        reservation_name = #{record.reservationName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reservationTel != null">
+        reservation_tel = #{record.reservationTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.arrivalTime != null">
+        arrival_time = #{record.arrivalTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastModified != null">
+        last_modified = #{record.lastModified,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update reservation
+    set reservation_serial = #{record.reservationSerial,jdbcType=INTEGER},
+      shop_account_id = #{record.shopAccountId,jdbcType=INTEGER},
+      member_account_id = #{record.memberAccountId,jdbcType=INTEGER},
+      customers_number = #{record.customersNumber,jdbcType=SMALLINT},
+      reservation_name = #{record.reservationName,jdbcType=VARCHAR},
+      reservation_tel = #{record.reservationTel,jdbcType=VARCHAR},
+      arrival_time = #{record.arrivalTime,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      last_modified = #{record.lastModified,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.Reservation">
+    update reservation
+    <set>
+      <if test="shopAccountId != null">
+        shop_account_id = #{shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="memberAccountId != null">
+        member_account_id = #{memberAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="customersNumber != null">
+        customers_number = #{customersNumber,jdbcType=SMALLINT},
+      </if>
+      <if test="reservationName != null">
+        reservation_name = #{reservationName,jdbcType=VARCHAR},
+      </if>
+      <if test="reservationTel != null">
+        reservation_tel = #{reservationTel,jdbcType=VARCHAR},
+      </if>
+      <if test="arrivalTime != null">
+        arrival_time = #{arrivalTime,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        last_modified = #{lastModified,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where reservation_serial = #{reservationSerial,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.Reservation">
+    update reservation
+    set shop_account_id = #{shopAccountId,jdbcType=INTEGER},
+      member_account_id = #{memberAccountId,jdbcType=INTEGER},
+      customers_number = #{customersNumber,jdbcType=SMALLINT},
+      reservation_name = #{reservationName,jdbcType=VARCHAR},
+      reservation_tel = #{reservationTel,jdbcType=VARCHAR},
+      arrival_time = #{arrivalTime,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      last_modified = #{lastModified,jdbcType=VARCHAR}
+    where reservation_serial = #{reservationSerial,jdbcType=INTEGER}
+  </update>
+</mapper>

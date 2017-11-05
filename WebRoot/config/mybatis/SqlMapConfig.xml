@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+     <!-- 开启二级缓存,还要在mapper配置文件中设置-->
+	<settings>
+		<setting name="cacheEnabled" value="true"/>
+	</settings>
+   
+   
+   
+  <!--  自动扫描mapper被注销是因为和spring整合的结果，有其他组件扫描mapper
+	<mappers>
+		<package name="mapper"></package>
+	</mappers>
+    -->
+</configuration>

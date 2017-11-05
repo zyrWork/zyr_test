@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.DishMapper">
+  <resultMap id="BaseResultMap" type="pojo.Dish">
+    <id column="dish_serial" jdbcType="INTEGER" property="dishSerial" />
+    <result column="dish_id" jdbcType="INTEGER" property="dishId" />
+    <result column="shop_account_id" jdbcType="INTEGER" property="shopAccountId" />
+    <result column="dish_name" jdbcType="VARCHAR" property="dishName" />
+    <result column="dish_type_id" jdbcType="INTEGER" property="dishTypeId" />
+    <result column="dish_pic" jdbcType="VARCHAR" property="dishPic" />
+    <result column="dish_price" jdbcType="DECIMAL" property="dishPrice" />
+    <result column="dish_pay_price" jdbcType="DECIMAL" property="dishPayPrice" />
+    <result column="on_shelf" jdbcType="BIT" property="onShelf" />
+    <result column="on_sale_time" jdbcType="VARCHAR" property="onSaleTime" />
+    <result column="on_shelf_time" jdbcType="VARCHAR" property="onShelfTime" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    <result column="delete_time" jdbcType="VARCHAR" property="deleteTime" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="last_modified" jdbcType="VARCHAR" property="lastModified" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="pojo.Dish">
+    <result column="dish_description" jdbcType="LONGVARCHAR" property="dishDescription" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    dish_serial, dish_id, shop_account_id, dish_name, dish_type_id, dish_pic, dish_price, 
+    dish_pay_price, on_shelf, on_sale_time, on_shelf_time, is_delete, delete_time, create_time, 
+    last_modified
+  </sql>
+  <sql id="Blob_Column_List">
+    dish_description
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="pojo.DishExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dish
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="pojo.DishExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dish
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from dish
+    where dish_serial = #{dishSerial,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dish
+    where dish_serial = #{dishSerial,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.DishExample">
+    delete from dish
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.Dish">
+    insert into dish (dish_serial, dish_id, shop_account_id, 
+      dish_name, dish_type_id, dish_pic, 
+      dish_price, dish_pay_price, on_shelf, 
+      on_sale_time, on_shelf_time, is_delete, 
+      delete_time, create_time, last_modified, 
+      dish_description)
+    values (#{dishSerial,jdbcType=INTEGER}, #{dishId,jdbcType=INTEGER}, #{shopAccountId,jdbcType=INTEGER}, 
+      #{dishName,jdbcType=VARCHAR}, #{dishTypeId,jdbcType=INTEGER}, #{dishPic,jdbcType=VARCHAR}, 
+      #{dishPrice,jdbcType=DECIMAL}, #{dishPayPrice,jdbcType=DECIMAL}, #{onShelf,jdbcType=BIT}, 
+      #{onSaleTime,jdbcType=VARCHAR}, #{onShelfTime,jdbcType=VARCHAR}, #{isDelete,jdbcType=BIT}, 
+      #{deleteTime,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{lastModified,jdbcType=VARCHAR}, 
+      #{dishDescription,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.Dish">
+    insert into dish
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dishSerial != null">
+        dish_serial,
+      </if>
+      <if test="dishId != null">
+        dish_id,
+      </if>
+      <if test="shopAccountId != null">
+        shop_account_id,
+      </if>
+      <if test="dishName != null">
+        dish_name,
+      </if>
+      <if test="dishTypeId != null">
+        dish_type_id,
+      </if>
+      <if test="dishPic != null">
+        dish_pic,
+      </if>
+      <if test="dishPrice != null">
+        dish_price,
+      </if>
+      <if test="dishPayPrice != null">
+        dish_pay_price,
+      </if>
+      <if test="onShelf != null">
+        on_shelf,
+      </if>
+      <if test="onSaleTime != null">
+        on_sale_time,
+      </if>
+      <if test="onShelfTime != null">
+        on_shelf_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastModified != null">
+        last_modified,
+      </if>
+      <if test="dishDescription != null">
+        dish_description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dishSerial != null">
+        #{dishSerial,jdbcType=INTEGER},
+      </if>
+      <if test="dishId != null">
+        #{dishId,jdbcType=INTEGER},
+      </if>
+      <if test="shopAccountId != null">
+        #{shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="dishName != null">
+        #{dishName,jdbcType=VARCHAR},
+      </if>
+      <if test="dishTypeId != null">
+        #{dishTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="dishPic != null">
+        #{dishPic,jdbcType=VARCHAR},
+      </if>
+      <if test="dishPrice != null">
+        #{dishPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="dishPayPrice != null">
+        #{dishPayPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="onShelf != null">
+        #{onShelf,jdbcType=BIT},
+      </if>
+      <if test="onSaleTime != null">
+        #{onSaleTime,jdbcType=VARCHAR},
+      </if>
+      <if test="onShelfTime != null">
+        #{onShelfTime,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        #{lastModified,jdbcType=VARCHAR},
+      </if>
+      <if test="dishDescription != null">
+        #{dishDescription,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.DishExample" resultType="java.lang.Long">
+    select count(*) from dish
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dish
+    <set>
+      <if test="record.dishSerial != null">
+        dish_serial = #{record.dishSerial,jdbcType=INTEGER},
+      </if>
+      <if test="record.dishId != null">
+        dish_id = #{record.dishId,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopAccountId != null">
+        shop_account_id = #{record.shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dishName != null">
+        dish_name = #{record.dishName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dishTypeId != null">
+        dish_type_id = #{record.dishTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dishPic != null">
+        dish_pic = #{record.dishPic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dishPrice != null">
+        dish_price = #{record.dishPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dishPayPrice != null">
+        dish_pay_price = #{record.dishPayPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.onShelf != null">
+        on_shelf = #{record.onShelf,jdbcType=BIT},
+      </if>
+      <if test="record.onSaleTime != null">
+        on_sale_time = #{record.onSaleTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.onShelfTime != null">
+        on_shelf_time = #{record.onShelfTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=BIT},
+      </if>
+      <if test="record.deleteTime != null">
+        delete_time = #{record.deleteTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastModified != null">
+        last_modified = #{record.lastModified,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dishDescription != null">
+        dish_description = #{record.dishDescription,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update dish
+    set dish_serial = #{record.dishSerial,jdbcType=INTEGER},
+      dish_id = #{record.dishId,jdbcType=INTEGER},
+      shop_account_id = #{record.shopAccountId,jdbcType=INTEGER},
+      dish_name = #{record.dishName,jdbcType=VARCHAR},
+      dish_type_id = #{record.dishTypeId,jdbcType=INTEGER},
+      dish_pic = #{record.dishPic,jdbcType=VARCHAR},
+      dish_price = #{record.dishPrice,jdbcType=DECIMAL},
+      dish_pay_price = #{record.dishPayPrice,jdbcType=DECIMAL},
+      on_shelf = #{record.onShelf,jdbcType=BIT},
+      on_sale_time = #{record.onSaleTime,jdbcType=VARCHAR},
+      on_shelf_time = #{record.onShelfTime,jdbcType=VARCHAR},
+      is_delete = #{record.isDelete,jdbcType=BIT},
+      delete_time = #{record.deleteTime,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      last_modified = #{record.lastModified,jdbcType=VARCHAR},
+      dish_description = #{record.dishDescription,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dish
+    set dish_serial = #{record.dishSerial,jdbcType=INTEGER},
+      dish_id = #{record.dishId,jdbcType=INTEGER},
+      shop_account_id = #{record.shopAccountId,jdbcType=INTEGER},
+      dish_name = #{record.dishName,jdbcType=VARCHAR},
+      dish_type_id = #{record.dishTypeId,jdbcType=INTEGER},
+      dish_pic = #{record.dishPic,jdbcType=VARCHAR},
+      dish_price = #{record.dishPrice,jdbcType=DECIMAL},
+      dish_pay_price = #{record.dishPayPrice,jdbcType=DECIMAL},
+      on_shelf = #{record.onShelf,jdbcType=BIT},
+      on_sale_time = #{record.onSaleTime,jdbcType=VARCHAR},
+      on_shelf_time = #{record.onShelfTime,jdbcType=VARCHAR},
+      is_delete = #{record.isDelete,jdbcType=BIT},
+      delete_time = #{record.deleteTime,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      last_modified = #{record.lastModified,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.Dish">
+    update dish
+    <set>
+      <if test="dishId != null">
+        dish_id = #{dishId,jdbcType=INTEGER},
+      </if>
+      <if test="shopAccountId != null">
+        shop_account_id = #{shopAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="dishName != null">
+        dish_name = #{dishName,jdbcType=VARCHAR},
+      </if>
+      <if test="dishTypeId != null">
+        dish_type_id = #{dishTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="dishPic != null">
+        dish_pic = #{dishPic,jdbcType=VARCHAR},
+      </if>
+      <if test="dishPrice != null">
+        dish_price = #{dishPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="dishPayPrice != null">
+        dish_pay_price = #{dishPayPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="onShelf != null">
+        on_shelf = #{onShelf,jdbcType=BIT},
+      </if>
+      <if test="onSaleTime != null">
+        on_sale_time = #{onSaleTime,jdbcType=VARCHAR},
+      </if>
+      <if test="onShelfTime != null">
+        on_shelf_time = #{onShelfTime,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        last_modified = #{lastModified,jdbcType=VARCHAR},
+      </if>
+      <if test="dishDescription != null">
+        dish_description = #{dishDescription,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where dish_serial = #{dishSerial,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="pojo.Dish">
+    update dish
+    set dish_id = #{dishId,jdbcType=INTEGER},
+      shop_account_id = #{shopAccountId,jdbcType=INTEGER},
+      dish_name = #{dishName,jdbcType=VARCHAR},
+      dish_type_id = #{dishTypeId,jdbcType=INTEGER},
+      dish_pic = #{dishPic,jdbcType=VARCHAR},
+      dish_price = #{dishPrice,jdbcType=DECIMAL},
+      dish_pay_price = #{dishPayPrice,jdbcType=DECIMAL},
+      on_shelf = #{onShelf,jdbcType=BIT},
+      on_sale_time = #{onSaleTime,jdbcType=VARCHAR},
+      on_shelf_time = #{onShelfTime,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=BIT},
+      delete_time = #{deleteTime,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      last_modified = #{lastModified,jdbcType=VARCHAR},
+      dish_description = #{dishDescription,jdbcType=LONGVARCHAR}
+    where dish_serial = #{dishSerial,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.Dish">
+    update dish
+    set dish_id = #{dishId,jdbcType=INTEGER},
+      shop_account_id = #{shopAccountId,jdbcType=INTEGER},
+      dish_name = #{dishName,jdbcType=VARCHAR},
+      dish_type_id = #{dishTypeId,jdbcType=INTEGER},
+      dish_pic = #{dishPic,jdbcType=VARCHAR},
+      dish_price = #{dishPrice,jdbcType=DECIMAL},
+      dish_pay_price = #{dishPayPrice,jdbcType=DECIMAL},
+      on_shelf = #{onShelf,jdbcType=BIT},
+      on_sale_time = #{onSaleTime,jdbcType=VARCHAR},
+      on_shelf_time = #{onShelfTime,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=BIT},
+      delete_time = #{deleteTime,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      last_modified = #{lastModified,jdbcType=VARCHAR}
+    where dish_serial = #{dishSerial,jdbcType=INTEGER}
+  </update>
+</mapper>

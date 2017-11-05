@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.OrderDetailMapper">
+  <resultMap id="BaseResultMap" type="pojo.OrderDetail">
+    <id column="order_detail_serial" jdbcType="INTEGER" property="orderDetailSerial" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="dish_id" jdbcType="INTEGER" property="dishId" />
+    <result column="dish_num" jdbcType="INTEGER" property="dishNum" />
+    <result column="dish_name" jdbcType="VARCHAR" property="dishName" />
+    <result column="dish_pic" jdbcType="VARCHAR" property="dishPic" />
+    <result column="dish_price" jdbcType="DECIMAL" property="dishPrice" />
+    <result column="dish_pay_price" jdbcType="DECIMAL" property="dishPayPrice" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="last_modified" jdbcType="VARCHAR" property="lastModified" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    order_detail_serial, order_id, dish_id, dish_num, dish_name, dish_pic, dish_price, 
+    dish_pay_price, is_delete, create_time, last_modified
+  </sql>
+  <select id="selectByExample" parameterType="pojo.OrderDetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from order_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_detail
+    where order_detail_serial = #{orderDetailSerial,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order_detail
+    where order_detail_serial = #{orderDetailSerial,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.OrderDetailExample">
+    delete from order_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.OrderDetail">
+    insert into order_detail (order_detail_serial, order_id, dish_id, 
+      dish_num, dish_name, dish_pic, 
+      dish_price, dish_pay_price, is_delete, 
+      create_time, last_modified)
+    values (#{orderDetailSerial,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{dishId,jdbcType=INTEGER}, 
+      #{dishNum,jdbcType=INTEGER}, #{dishName,jdbcType=VARCHAR}, #{dishPic,jdbcType=VARCHAR}, 
+      #{dishPrice,jdbcType=DECIMAL}, #{dishPayPrice,jdbcType=DECIMAL}, #{isDelete,jdbcType=BIT}, 
+      #{createTime,jdbcType=VARCHAR}, #{lastModified,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.OrderDetail">
+    insert into order_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderDetailSerial != null">
+        order_detail_serial,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="dishId != null">
+        dish_id,
+      </if>
+      <if test="dishNum != null">
+        dish_num,
+      </if>
+      <if test="dishName != null">
+        dish_name,
+      </if>
+      <if test="dishPic != null">
+        dish_pic,
+      </if>
+      <if test="dishPrice != null">
+        dish_price,
+      </if>
+      <if test="dishPayPrice != null">
+        dish_pay_price,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastModified != null">
+        last_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderDetailSerial != null">
+        #{orderDetailSerial,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="dishId != null">
+        #{dishId,jdbcType=INTEGER},
+      </if>
+      <if test="dishNum != null">
+        #{dishNum,jdbcType=INTEGER},
+      </if>
+      <if test="dishName != null">
+        #{dishName,jdbcType=VARCHAR},
+      </if>
+      <if test="dishPic != null">
+        #{dishPic,jdbcType=VARCHAR},
+      </if>
+      <if test="dishPrice != null">
+        #{dishPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="dishPayPrice != null">
+        #{dishPayPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        #{lastModified,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.OrderDetailExample" resultType="java.lang.Long">
+    select count(*) from order_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update order_detail
+    <set>
+      <if test="record.orderDetailSerial != null">
+        order_detail_serial = #{record.orderDetailSerial,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dishId != null">
+        dish_id = #{record.dishId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dishNum != null">
+        dish_num = #{record.dishNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.dishName != null">
+        dish_name = #{record.dishName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dishPic != null">
+        dish_pic = #{record.dishPic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dishPrice != null">
+        dish_price = #{record.dishPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dishPayPrice != null">
+        dish_pay_price = #{record.dishPayPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=BIT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastModified != null">
+        last_modified = #{record.lastModified,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update order_detail
+    set order_detail_serial = #{record.orderDetailSerial,jdbcType=INTEGER},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      dish_id = #{record.dishId,jdbcType=INTEGER},
+      dish_num = #{record.dishNum,jdbcType=INTEGER},
+      dish_name = #{record.dishName,jdbcType=VARCHAR},
+      dish_pic = #{record.dishPic,jdbcType=VARCHAR},
+      dish_price = #{record.dishPrice,jdbcType=DECIMAL},
+      dish_pay_price = #{record.dishPayPrice,jdbcType=DECIMAL},
+      is_delete = #{record.isDelete,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      last_modified = #{record.lastModified,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.OrderDetail">
+    update order_detail
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="dishId != null">
+        dish_id = #{dishId,jdbcType=INTEGER},
+      </if>
+      <if test="dishNum != null">
+        dish_num = #{dishNum,jdbcType=INTEGER},
+      </if>
+      <if test="dishName != null">
+        dish_name = #{dishName,jdbcType=VARCHAR},
+      </if>
+      <if test="dishPic != null">
+        dish_pic = #{dishPic,jdbcType=VARCHAR},
+      </if>
+      <if test="dishPrice != null">
+        dish_price = #{dishPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="dishPayPrice != null">
+        dish_pay_price = #{dishPayPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        last_modified = #{lastModified,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_detail_serial = #{orderDetailSerial,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.OrderDetail">
+    update order_detail
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      dish_id = #{dishId,jdbcType=INTEGER},
+      dish_num = #{dishNum,jdbcType=INTEGER},
+      dish_name = #{dishName,jdbcType=VARCHAR},
+      dish_pic = #{dishPic,jdbcType=VARCHAR},
+      dish_price = #{dishPrice,jdbcType=DECIMAL},
+      dish_pay_price = #{dishPayPrice,jdbcType=DECIMAL},
+      is_delete = #{isDelete,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      last_modified = #{lastModified,jdbcType=VARCHAR}
+    where order_detail_serial = #{orderDetailSerial,jdbcType=INTEGER}
+  </update>
+</mapper>

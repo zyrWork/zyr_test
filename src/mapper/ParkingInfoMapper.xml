@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ParkingInfoMapper">
+  <resultMap id="BaseResultMap" type="pojo.ParkingInfo">
+    <id column="parking_serial" jdbcType="INTEGER" property="parkingSerial" />
+    <result column="parking_no" jdbcType="VARCHAR" property="parkingNo" />
+    <result column="parking_floor_no" jdbcType="VARCHAR" property="parkingFloorNo" />
+    <result column="parking_area" jdbcType="VARCHAR" property="parkingArea" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="last_modified" jdbcType="VARCHAR" property="lastModified" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    parking_serial, parking_no, parking_floor_no, parking_area, create_time, last_modified
+  </sql>
+  <select id="selectByExample" parameterType="pojo.ParkingInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from parking_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from parking_info
+    where parking_serial = #{parkingSerial,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from parking_info
+    where parking_serial = #{parkingSerial,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.ParkingInfoExample">
+    delete from parking_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.ParkingInfo">
+    insert into parking_info (parking_serial, parking_no, parking_floor_no, 
+      parking_area, create_time, last_modified
+      )
+    values (#{parkingSerial,jdbcType=INTEGER}, #{parkingNo,jdbcType=VARCHAR}, #{parkingFloorNo,jdbcType=VARCHAR}, 
+      #{parkingArea,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{lastModified,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.ParkingInfo">
+    insert into parking_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="parkingSerial != null">
+        parking_serial,
+      </if>
+      <if test="parkingNo != null">
+        parking_no,
+      </if>
+      <if test="parkingFloorNo != null">
+        parking_floor_no,
+      </if>
+      <if test="parkingArea != null">
+        parking_area,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastModified != null">
+        last_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="parkingSerial != null">
+        #{parkingSerial,jdbcType=INTEGER},
+      </if>
+      <if test="parkingNo != null">
+        #{parkingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingFloorNo != null">
+        #{parkingFloorNo,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingArea != null">
+        #{parkingArea,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        #{lastModified,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.ParkingInfoExample" resultType="java.lang.Long">
+    select count(*) from parking_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update parking_info
+    <set>
+      <if test="record.parkingSerial != null">
+        parking_serial = #{record.parkingSerial,jdbcType=INTEGER},
+      </if>
+      <if test="record.parkingNo != null">
+        parking_no = #{record.parkingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parkingFloorNo != null">
+        parking_floor_no = #{record.parkingFloorNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parkingArea != null">
+        parking_area = #{record.parkingArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastModified != null">
+        last_modified = #{record.lastModified,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update parking_info
+    set parking_serial = #{record.parkingSerial,jdbcType=INTEGER},
+      parking_no = #{record.parkingNo,jdbcType=VARCHAR},
+      parking_floor_no = #{record.parkingFloorNo,jdbcType=VARCHAR},
+      parking_area = #{record.parkingArea,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      last_modified = #{record.lastModified,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.ParkingInfo">
+    update parking_info
+    <set>
+      <if test="parkingNo != null">
+        parking_no = #{parkingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingFloorNo != null">
+        parking_floor_no = #{parkingFloorNo,jdbcType=VARCHAR},
+      </if>
+      <if test="parkingArea != null">
+        parking_area = #{parkingArea,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModified != null">
+        last_modified = #{lastModified,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where parking_serial = #{parkingSerial,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.ParkingInfo">
+    update parking_info
+    set parking_no = #{parkingNo,jdbcType=VARCHAR},
+      parking_floor_no = #{parkingFloorNo,jdbcType=VARCHAR},
+      parking_area = #{parkingArea,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      last_modified = #{lastModified,jdbcType=VARCHAR}
+    where parking_serial = #{parkingSerial,jdbcType=INTEGER}
+  </update>
+</mapper>
